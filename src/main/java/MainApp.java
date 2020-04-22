@@ -75,19 +75,21 @@ public class MainApp implements Runnable {
                 listaup30.add(employee);
             }
         }
-//        System.out.println(listaup30);
+        System.out.println("Powyżej 30 lat:");
         return listaup30;
     }
 
 
     private List<Employee> sortSalary(List<Employee> listaa){
         listaa.sort(Comparator.comparing(Employee::getSalary));
+        System.out.println("Lista posortowana względem wypłaty rosnąco:");
         return listaa;
     }
 
 
     private List<Employee> sortAge(List<Employee> lista){
         lista.sort(Comparator.comparing(Employee::getAge).reversed());
+        System.out.println("Lista posortowana względem wieku malejąco:");
         return lista;
     }
 
