@@ -23,9 +23,13 @@ public class MainApp implements Runnable {
         try {
             String response = new HttpService().connect(Config.APP_URL);
             parseJson(response);
-            powyzej30(response);
-            sortowaniePensja(response);
-            sortowanieWiekMalejąco(response);
+            wypisz(parseJson(response));
+//            powyzej30(response);
+            wypisz(up30(parseJson(response)));
+//            sortowaniePensja(response);
+            wypisz(sortSalary(parseJson(response)));
+//            sortowanieWiekMalejąco(response);
+            wypisz(sortAge(parseJson(response)));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -47,82 +51,44 @@ public class MainApp implements Runnable {
             employeesList.add(employee);
         }
 
-        System.out.println("Logs: ");
-        System.out.println(employeesList);
-        System.out.println(employeesList.size());
-        System.out.println(jsonArrayEmployees.length());
+//        System.out.println("Logs: ");
+//        System.out.println(employeesList);
+//        System.out.println(employeesList.size());
+//        System.out.println(jsonArrayEmployees.length());
 
         return employeesList;
     }
+    private void wypisz(List<Employee> list){
 
-    private List<Employee> powyzej30(String json){
-        JSONObject jsonObject30 = new JSONObject(json);
-        JSONArray jsonArrayEmployees30 = jsonObject30.getJSONArray("data");
-
-        List<Employee> employeesList30 = new ArrayList<>();
-
-        for (int i = 0; i < jsonArrayEmployees30.length(); i++) {
-            JSONObject one30 = (JSONObject) jsonArrayEmployees30.get(i);
-            Employee employee = new Employee();
-            employee.setId(Integer.parseInt(one30.get("id").toString()));
-            employee.setAge(Double.parseDouble(one30.get("employee_age").toString()));
-            employee.setName(one30.get("employee_name").toString());
-            employee.setSalary(Double.parseDouble(one30.get("employee_salary").toString()));
-            if (employee.getAge()>30) {
-                employeesList30.add(employee);
-            }
-
-        }
         System.out.println("Logs: ");
-        System.out.println(employeesList30);
-        System.out.println(employeesList30.size());
-        System.out.println(jsonArrayEmployees30.length());
-        return employeesList30;
+        System.out.println(list);
+        System.out.println(list.size());
+//        System.out.println(list.length());
     }
+
+
     private List<Employee> up30(List<Employee> lista){
-        for (lista:)
+        List<Employee> listaup30 = new ArrayList<>();
+        for (Employee employee  : lista){
+            if (employee.getAge()>30){
+
+                listaup30.add(employee);
+            }
+        }
+//        System.out.println(listaup30);
+        return listaup30;
     }
 
-    private List<Employee> sortowaniePensja(String json){
-        JSONObject jsonObjectPensja = new JSONObject(json);
-        JSONArray jsonArrayEmployeesPensja = jsonObjectPensja.getJSONArray("data");
 
-        List<Employee> employeesListPensja = new ArrayList<>();
-
-        for (int i = 0; i < jsonArrayEmployeesPensja.length(); i++) {
-            JSONObject onePensja = (JSONObject) jsonArrayEmployeesPensja.get(i);
-            Employee employee = new Employee();
-            employee.setId(Integer.parseInt(onePensja.get("id").toString()));
-            employee.setAge(Double.parseDouble(onePensja.get("employee_age").toString()));
-            employee.setName(onePensja.get("employee_name").toString());
-            employee.setSalary(Double.parseDouble(onePensja.get("employee_salary").toString()));
-            employeesListPensja.add(employee);
-        }
-        employeesListPensja.sort(Comparator.comparing(Employee::getSalary));
-        System.out.println("Logs: ");
-        System.out.println(employeesListPensja);
-        return employeesListPensja;
+    private List<Employee> sortSalary(List<Employee> listaa){
+        listaa.sort(Comparator.comparing(Employee::getSalary));
+        return listaa;
     }
 
-    private List<Employee> sortowanieWiekMalejąco(String json){
-        JSONObject jsonObjectWiek = new JSONObject(json);
-        JSONArray jsonArrayEmployeesPensja = jsonObjectWiek.getJSONArray("data");
 
-        List<Employee> employeesListWiek = new ArrayList<>();
-
-        for (int i = 0; i < jsonArrayEmployeesPensja.length(); i++) {
-            JSONObject oneWiek = (JSONObject) jsonArrayEmployeesPensja.get(i);
-            Employee employee = new Employee();
-            employee.setId(Integer.parseInt(oneWiek.get("id").toString()));
-            employee.setAge(Double.parseDouble(oneWiek.get("employee_age").toString()));
-            employee.setName(oneWiek.get("employee_name").toString());
-            employee.setSalary(Double.parseDouble(oneWiek.get("employee_salary").toString()));
-            employeesListWiek.add(employee);
-        }
-        employeesListWiek.sort(Comparator.comparing(Employee::getAge).reversed());
-        System.out.println("Logs: ");
-        System.out.println(employeesListWiek);
-        return employeesListWiek;
+    private List<Employee> sortAge(List<Employee> lista){
+        lista.sort(Comparator.comparing(Employee::getAge).reversed());
+        return lista;
     }
 
 
